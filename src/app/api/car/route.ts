@@ -8,6 +8,17 @@ export  async function GET(request: Request) {
     const token = cookieStore.get('jwt')
 
     const carsResponse = await axios.get('http://localhost:8080/car',{headers:{Authorization: `Bearer ${token?.value}`}})
-    console.log("carsResponse",carsResponse)
+    console.log("carsResponse",carsResponse.status)
+    return Response.json(carsResponse.data)
+}
+
+export async function POST(request: Request) {
+    const cookieStore = cookies();
+    const token = cookieStore.get('jwt')
+
+    const {modelName,seating,image} = await request.json()
+    const carsResponse = await axios.post('http://localhost:8080/car',{modelName,seating,image},
+        {headers:{Authorization: `Bearer ${token?.value}`}})
+    console.log("carsResponse",carsResponse.status)
     return Response.json(carsResponse.data)
 }

@@ -6,13 +6,15 @@ import {useGetToken} from "@lib/hooks";
 import {redirect} from "next/navigation";
 import {Avatar, List} from "antd";
 import React from "react";
+import {useCookies} from "next-client-cookies";
 
 export default function DashboardPage(){
-    const token = useGetToken()
+    const cookies = useCookies();
+    const token = cookies.get('jwt')
     if(!token){
         redirect('/login')
     }
-    const cars = useQuery<AxiosResponse>({queryKey: "cars",
+    const cars = useQuery<AxiosResponse>({queryKey: ["cars"],
         queryFn: async ()=> {
             const carsResp = await axios.get('/api/car',{headers:{Authorization: `Bearer ${token}`}});
             return carsResp.data;

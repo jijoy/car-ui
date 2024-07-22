@@ -7,6 +7,7 @@ import React from "react";
 
 
 import Providers from "./providers";
+import {CookiesProvider} from "next-client-cookies/server";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,11 @@ export default function RootLayout({
     return (
     <html lang="en">
         <body className={inter.className}>
-        <Providers><AntdRegistry>{children}</AntdRegistry></Providers>
+        <Providers>
+            <CookiesProvider>
+                <AntdRegistry>{children}</AntdRegistry>
+            </CookiesProvider>
+            </Providers>
         </body>
     </html>
     );
